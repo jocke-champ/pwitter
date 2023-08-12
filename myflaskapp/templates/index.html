@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Welcome to TwitClone!</h1>
+{% if current_user.is_authenticated %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.tweet.label }}<br>
+            {{ form.tweet(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endif %}
+{% for tweet in tweets %}
+    <div>
+        <h2>{{ tweet.author.username }}: {{ tweet.text }}</h2>
+        {% for comment in tweet.comments %}
+            <p>
+                {{ comment.author.username }}: {{ comment.text }}
+            </p>
+        {% endfor %}
+        {% if current_user.is_authenticated %}
+            <form action="{{ url_for('comment', tweet_id=tweet.id) }}" method="post">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.comment.label }}<br>
+                    {{ form.comment(size=32) }}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
+        {% endif %}
+    </div>
+{% endfor %}
+{% endblock %}

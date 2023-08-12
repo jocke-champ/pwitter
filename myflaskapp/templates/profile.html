@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ user.username }}'s Profile</h1>
+
+{% for tweet in tweets %}
+    <div class="tweet">
+        <p>{{ tweet.text }}</p>
+        <small>Posted on {{ tweet.timestamp }}</small>
+
+        <!-- Display all comments for this tweet -->
+        {% for comment in tweet.comments %}
+            <div class="comment">
+                <p>{{ comment.text }}</p>
+                <small>Comment by {{ comment.author.username }} on {{ comment.timestamp }}</small>
+            </div>
+        {% endfor %}
+
+        <!-- Form for adding a new comment -->
+        <form action="{{ url_for('profile', username=user.username) }}" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.comment.label }} {{ form.comment(size=32) }}
+            <input type="hidden" name="tweet_id" value="{{ tweet.id }}">  <!-- Hidden field to store the ID of the tweet -->
+            <input type="submit" value="Post Comment">
+        </form>
+    </div>
+{% endfor %}
+
+{% endblock %}

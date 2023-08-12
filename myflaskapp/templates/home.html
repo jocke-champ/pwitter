@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Welcome to TwitClone!</h1>
+<p>You must be logged in to see tweets. Please <a href="{{ url_for('views.login') }}">login</a> or <a href="{{ url_for('views.register') }}">register</a> if you do not have an account.</p>
+{% endblock %}

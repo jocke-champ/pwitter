@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %} - TwitClone</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{{ url_for('views.home') }}">Home</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('views.login') }}">Login</a>
+                <a href="{{ url_for('views.register') }}">Register</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
